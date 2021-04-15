@@ -1,0 +1,55 @@
+{
+    "CardDetails": {
+      "ActorID": 0,
+      "CardUniqueIdentifier": "string",
+      "CardDisplayNumber": "string",
+      "CardTypeID": 0,
+      "PhysicalTypeID": 0,
+      "Notes": "string",
+      "Status": 0
+    },
+    "CardHolderDetails": {
+      "CardHolderName": "string",
+      "UserIdentity": "string",
+      "CountryID": 0,
+      "MobileNumber": "string"
+    },
+    "CardCreditAttributes": {
+      "CurrencyID": 0,
+      "Credit": 0,
+      "RevalueCredit": 0,
+      "CreditTypeMoneyBit": true,
+      "CreditAccumulateBit": true,
+      "CreditSingleUseBit": true,
+      "RevalueCashBit": true,
+      "RevalueCreditCardBit": true,
+      "AmountMonthlyReload": 0,
+      "TransactionsMonthlyReload": 0
+    },
+    "CardCreditLimits": {
+      "AmountDailyLimit": 0,
+      "TransactionsDailyLimit": 0,
+      "AmountMonthlyLimit": 0,
+      "TransactionsMonthlyLimit": 0,
+      "DiscountTransactionsTotalLimit": 0,
+      "MaxRevalueAmountLimit": 0,
+      "WeekDayLimitEnabledBit": true,
+      "WeekDayAmountLimit": "string",
+      "WeekDayTransactionLimit": "string"
+    },
+    "CardDateRules": {
+      "ActivationDate": "2021-03-25T22:30:04.863Z",
+      "ExpirationDate": "2021-03-25T22:30:04.863Z",
+      "RevalueExpirationDate": "2021-03-25T22:30:04.863Z",
+      "SetSingleUseDate": "2021-03-25T22:30:04.863Z",
+      "RemoveSingleUseDate": "2021-03-25T22:30:04.863Z"
+    },
+    "GroupLocationLimits": [
+      {
+        "CardGroupEnabledBit": true,
+        "GroupName": "string",
+        "CardGroupId": 0,
+        "GroupDailyLimit": 0
+      }
+    ]
+  }

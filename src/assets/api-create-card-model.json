@@ -1,0 +1,22 @@
+{
+  "ActorID": 0,
+  "CardUniqueIdentifier": "",
+  "CardDisplayNumber": "",
+  "CardHolderName": "",
+  "CardStatus": 0,
+  "CardType": 0,
+  "CardUserIdentity": "",
+  "CountryID": 0,
+  "Currency": 0,
+  "MobileNumber": "",
+  "Email": "",
+  "CardPhysicalType": 0,
+  "MemberType": 0,
+  "CardActivationDate": "",
+  "CardExpirationDate": "",
+  "CardImageUrl": "",
+  "CardNote": "",
+  "wd_limits_money": "",
+  "wd_limits_trans": "",
+  "use_wd_limit": false
+}

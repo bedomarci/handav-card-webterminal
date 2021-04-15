@@ -1,0 +1,579 @@
+{
+  "errorMessageTimeout": 15000,
+  "enableTokenControl": true,
+  "replaceHungarianAccentToZeroInUniqueID": true,
+  "convertHextoDecUniqueID": false,
+  "hideSettingsIcon": false,
+  "hideDetailFieldsBeforeUniqueIdentifierIsValid": true,
+  "disableUniqueIdentifierIfValid": false,
+  "uniqueIdentifierLength": 6,
+  "cardExpirationInDays": 365,
+
+  "header": {
+    "bgImage": "https://picsum.photos/1920/1080?random",
+    "bgColor": "#6A76AB",
+    "title": "HANDAV Kártyaregisztrációs terminál",
+    "icon": "https://picsum.photos/50/50?random",
+    "iconSize": 50,
+    "gradient": "to top, rgba(0,0,0,2), rgba(0,0,0,.0)"
+  },
+  "theme": {
+    "primary": "#1976D2",
+    "secondary": "#424242",
+    "accent": "#82B1FF",
+    "error": "#FF5252",
+    "info": "#2196F3",
+    "success": "#4CAF50",
+    "warning": "#FFC107"
+  },
+  "translation": {
+    "settings": {
+      "header": "NAYAX API csatlakozási beállítások",
+      "labelUsername": "Felhasználónév",
+      "labelPassword": "Jelszó",
+      "labelConfig": "Cégnév",
+      "placeholderUsername": "Nayax API felhasználónév.",
+      "placeholderPassword": "Nayax API jelszó.",
+      "placeholderConfig": "A távoli konfigurációs állomány egyedi azonosítója."
+    },
+    "common": {
+      "save": "Mentés",
+      "close": "Bezárás",
+      "valid": "Érvényes",
+      "invalid": "Érvénytelen",
+      "submit": "Küldés"
+    },
+    "message": {
+      "requiredField": "A mező kitöltése kötelező.",
+      "pleaseReadCard": "Kérem olvassa be a kártya azonosítóját a leolvasó berendezéssel a Kártyaszám mezőbe!",
+      "cardCreationWasSuccessful": "A kártyaregisztrálás sikeres volt!",
+      "cardUpdateWasSuccessful": "A kártya paraméterezése sikeres volt!",
+      "resetForm": "Űrlap újrakezdése"
+    }
+  },
+  "fields": {
+    "CardUniqueIdentifier": {
+      "label": "Kártyaszám",
+      "palceholder": "",
+      "hint": "",
+      "type": "text",
+      "default": "",
+      "visible": true,
+      "required": true,
+      "model": "create"
+    },
+    "ActorID": {
+      "label": "Operátor",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 2001087876,
+      "visible": false,
+      "required": false,
+      "model": "create"
+    },
+    "CardDisplayNumber": {
+      "label": "Kártyára írt sorozatszám",
+      "palceholder": "",
+      "hint": "",
+      "type": "text",
+      "default": "Kártyára írt sorozatszám",
+      "visible": true,
+      "required": true,
+      "model": "create"
+    },
+    "CardType": {
+      "label": "Kártya típusa",
+      "palceholder": "",
+      "hint": "",
+      "type": "select",
+      "default": 33,
+      "items": [
+        { "label": "Feltöltő kártya", "value": 33 },
+        { "label": "Visszatérítéses kártya", "value": 34 },
+        { "label": "Technikus kártya", "value": 31 },
+        { "label": "Kedvezmény kártya", "value": 30000616 }
+      ],
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "PhysicalType": {
+      "label": "Kártya fizikai típusa",
+      "palceholder": "",
+      "hint": "",
+      "type": "select",
+      "default": 30000530,
+      "items": [
+        { "value": 30000528, "label": "Mágnescsíkos" },
+        { "value": 30000529, "label": "Chip kártya" },
+        { "value": 30000530, "label": "Érintéses kártya" },
+        { "value": 30000531, "label": "Érintéses matrica" },
+        { "value": 30000532, "label": "Monyx App virtuális ID" },
+        { "value": 30000533, "label": "3. féltől származó ID" },
+        { "value": 30000534, "label": "Kettős kártya Chip + Érintős" },
+        { "value": 30000535, "label": "Kettős kártya Mágnescsík + Érintős" },
+        { "value": 30000601, "label": "Monyx virtuális kártya" },
+        { "value": 943237560, "label": "QR Code" }
+      ],
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "CardNote": {
+      "label": "Megjegyzés",
+      "palceholder": "",
+      "hint": "",
+      "type": "text",
+      "default": "",
+      "visible": false,
+      "required": false,
+      "model": "create"
+    },
+    "CardStatus": {
+      "label": "Állapot",
+      "palceholder": "",
+      "hint": "",
+      "type": "select",
+      "default": 1,
+      "items": [
+        { "label": "Aktív", "value": 1 },
+        { "label": "Lejárt", "value": 4 },
+        { "label": "Nem aktív", "value": 2 }
+      ],
+      "visible": false,
+      "required": false,
+      "model": "create"
+    },
+    "CardHolderName": {
+      "label": "Kártyatulajdonos neve",
+      "palceholder": "",
+      "hint": "",
+      "type": "text",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "CardUserIdentity": {
+      "label": "Felhasználó azonosító",
+      "palceholder": "",
+      "hint": "",
+      "type": "text",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "CountryID": {
+      "label": "Ország azonosító",
+      "palceholder": "",
+      "hint": "",
+      "type": "select",
+      "default": 98,
+      "visible": false,
+      "required": false,
+      "model": "create"
+    },
+    "MobileNumber": {
+      "label": "Mobiltelefonszám",
+      "palceholder": "",
+      "hint": "",
+      "type": "text",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "Email": {
+      "label": "Email",
+      "palceholder": "",
+      "hint": "",
+      "type": "text",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "CardActivationDate": {
+      "label": "Aktiválási Dátum",
+      "palceholder": "",
+      "hint": "",
+      "type": "date",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "CardExpirationDate": {
+      "label": "Lejárati dátum",
+      "palceholder": "",
+      "hint": "",
+      "type": "date",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "wd_limits_money": {
+      "label": "Napi limit összeg",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "wd_limits_trans": {
+      "label": "Napi limit tranzakciók",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "use_wd_limit": {
+      "label": "Napi limit használata",
+      "palceholder": "",
+      "hint": "",
+      "type": "bool",
+      "default": false,
+      "visible": true,
+      "required": false,
+      "model": "create"
+    },
+    "CardDiscountTypeBit": {
+      "label": "CardDiscountTypeBit",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardDiscountAmount": {
+      "label": "CardDiscountAmount",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardCreditTypeMoneyBit": {
+      "label": "CardCreditTypeMoneyBit",
+      "palceholder": "",
+      "hint": "",
+      "type": "bool",
+      "default": true,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardCreditAccumulateBit": {
+      "label": "CardCreditAccumulateBit",
+      "palceholder": "",
+      "hint": "",
+      "type": "bool",
+      "default": false,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardCreditSingleUseBit": {
+      "label": "CardCreditSingleUseBit",
+      "palceholder": "",
+      "hint": "",
+      "type": "bool",
+      "default": true,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardRevalueCashBit": {
+      "label": "CardRevalueCashBit",
+      "palceholder": "",
+      "hint": "",
+      "type": "bool",
+      "default": true,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardRevalueCreditCardBit": {
+      "label": "CardRevalueCreditCardBit",
+      "palceholder": "",
+      "hint": "",
+      "type": "bool",
+      "default": true,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardCredit": {
+      "label": "CardCredit",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardRevalueCredit": {
+      "label": "CardRevalueCredit",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardMaxRevalueAmountLimit": {
+      "label": "CardMaxRevalueAmountLimit",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditAmountDailyLimit": {
+      "label": "CreditAmountDailyLimit",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditAmountMonthlyLimit": {
+      "label": "CreditAmountMonthlyLimit",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditTransactionsDailyLimit": {
+      "label": "CreditTransactionsDailyLimit",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditTransactionsMonthlyLimit": {
+      "label": "CreditTransactionsMonthlyLimit",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditTransactionsMonthlyReload": {
+      "label": "CreditTransactionsMonthlyReload",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditAmountCapture": {
+      "label": "CreditAmountCapture",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditTransactionsCapture": {
+      "label": "CreditTransactionsCapture",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditCaptureDate": {
+      "label": "CreditCaptureDate",
+      "palceholder": "",
+      "hint": "",
+      "type": "date",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditAmountDailyUsage": {
+      "label": "CreditAmountDailyUsage",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditAmountMonthlyUsage": {
+      "label": "CreditAmountMonthlyUsage",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditAmountTotalUsage": {
+      "label": "CreditAmountTotalUsage",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditTransactionsDailyUsage": {
+      "label": "CreditTransactionsDailyUsage",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditTransactionsMonthlyUsage": {
+      "label": "CreditTransactionsMonthlyUsage",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "TransactionsTotalUsage": {
+      "label": "TransactionsTotalUsage",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardRevalueExpirationDate": {
+      "label": "CardRevalueExpirationDate",
+      "palceholder": "",
+      "hint": "",
+      "type": "date",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardSetSingleUseDate": {
+      "label": "CardSetSingleUseDate",
+      "palceholder": "",
+      "hint": "",
+      "type": "date",
+      "default": 1,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "RemoveSingleUseDate": {
+      "label": "RemoveSingleUseDate",
+      "palceholder": "",
+      "hint": "",
+      "type": "date",
+      "default": 365,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditAmountMonthlyReload": {
+      "label": "CreditAmountMonthlyReload",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CreditTransactionsTotalUsage": {
+      "label": "CreditTransactionsTotalUsage",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardCustomerTypeID": {
+      "label": "CardCustomerTypeID",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardLastUpdatedBy": {
+      "label": "CardLastUpdatedBy",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "CardLastUpdatedDate": {
+      "label": "CardLastUpdatedDate",
+      "palceholder": "",
+      "hint": "",
+      "type": "date",
+      "default": "",
+      "visible": true,
+      "required": false,
+      "model": "update"
+    },
+    "final_wd_limit_money": {
+      "label": "final_wd_limit_money",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "update"
+    }
+  }
+}

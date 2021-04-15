@@ -1,0 +1,31 @@
+{
+  "errorMessageTimeout": 5000,
+  "enableTokenControl": true,
+  "replaceHungarianAccentToZeroInUniqueID": true,
+  "convertHextoDecUniqueID": false,
+  "hideSettingsIcon": false,
+  "hideDetailFieldsBeforeUniqueIdentifierIsValid": true,
+  "disableUniqueIdentifierIfValid": true,
+  "uniqueIdentifierLength": 6,
+  "cardExpirationInDays": 365,
+
+  "header": {
+    "bgImage": "https://picsum.photos/id/1/1920/1080",
+    "bgColor": "#6A76AB",
+    "title": "DEMO TERMINAL CONFIG",
+    "icon": "https://picsum.photos/id/5/50/50",
+    "iconSize": 50,
+    "gradient": "to top, rgba(0,0,0,2), rgba(0,0,0,.0)"
+  },
+  "theme": {
+    "primary": "#FF0000"
+  },
+  "fields": {
+    "use_wd_limit": {
+      "label": "Modositott mezo cimke tavoli konfigbol"
+    },
+    "CardUniqueIdentifier": {
+      "default": "bedo2"
+    }
+  }
+}
