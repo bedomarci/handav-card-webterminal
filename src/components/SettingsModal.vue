@@ -118,14 +118,18 @@ export default {
     configId: '',
     error: '',
     isAlertVisible: false,
+    configHasChanged: false,
   }),
-  created() {
-  },
+  created() {},
   methods: {
     save() {
       this.$emit('input', false)
       if (!this.token) {
         this.restoreAndFetchToken()
+      }
+      if (this.configHasChanged) {
+        this.configHasChanged = false
+        location.reload()
       }
     },
   },
@@ -160,7 +164,8 @@ export default {
       if (value) localStorage.password = value
       else localStorage.removeItem('password')
     },
-    configId: (value) => {
+    configId(value, oldValue) {
+      if (oldValue != value && oldValue) this.configHasChanged = true
       if (value) localStorage.configId = value
       else localStorage.removeItem('configId')
     },

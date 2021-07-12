@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 import c from '../app-constants'
 import { EventBus } from '../plugins/event-bus.js'
@@ -11,17 +10,20 @@ export default {
   // },
   computed: {
     config() {
-        return this.$store.getters.config
-    },
-    field() {
-        return this.$store.getters.field(this.property)
+      return this.$store.getters.config
     },
     __() {
-        return this.$store.getters.translation
+      return this.$store.getters.translation
     },
+    orderedFieldNames() {
+      return this.$store.getters.orderedFieldNames
+    }
   },
 
   methods: {
+    fieldByName(name) {
+      return this.$store.getters.field(name)
+    },
     loadDefaultConfig() {
       var defaultConfig = require('../assets/default-config.json')
       defaultConfig.fields.CountryID.items = require('../assets/countries.json')

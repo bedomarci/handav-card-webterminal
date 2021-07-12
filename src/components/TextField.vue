@@ -1,10 +1,10 @@
 <template>
   <v-text-field
-    :class="field.visible ? '' : 'd-none'"
-    :label="field.label || property + ' label'"
-    :placeholder="field.placeholder || ''"
-    :hint="field.hint || ''"
-    :type="field.type || 'text'"
+    :class="isFieldVisible ? '' : 'd-none'"
+    :label="thisField.label || property + ' label'"
+    :placeholder="thisField.placeholder || ''"
+    :hint="thisField.hint || ''"
+    :type="thisField.type || 'text'"
     :disabled="disabled || false"
     v-bind:value="value"
     v-on:input="updateModel($event)"
@@ -17,8 +17,9 @@
 <script>
 import { EventBus } from '../plugins/event-bus.js'
 import mixinConfig from '../mixins/mixinConfig'
+import mixinField from '../mixins/mixinField'
 export default {
-  mixins: [mixinConfig],
+  mixins: [mixinConfig, mixinField],
   props: {
     property: String,
     disabled: Boolean,
@@ -31,13 +32,13 @@ export default {
   data: () => ({}),
   created() {
     EventBus.$on('reset-form', () => {
-      this.$emit('input', this.field.default)
+      this.$emit('input', this.thisField.default)
     })
-    this.$emit('input', this.field.default)
+    this.$emit('input', this.thisField.default)
   },
   methods: {
     updateModel(value) {
-      if (this.field.type == 'number') value = parseInt(value)
+      if (this.thisField.type == 'number') value = parseInt(value)
 
       this.$emit('input', value)
     },
@@ -45,7 +46,7 @@ export default {
 
   computed: {
     validation() {
-      if (this.field.required) {
+      if (this.thisField.required) {
         var requiredRule = (value) =>
         !!value || this.__.message.requiredField
         return [requiredRule]

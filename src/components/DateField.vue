@@ -13,11 +13,11 @@
         readonly
         v-bind="attrs"
         v-on="on"
-        :class="field.visible ? '' : 'd-none'"
-        :label="field.label || property + ' label'"
-        :placeholder="field.placeholder || ''"
-        :hint="field.hint || ''"
-        :type="field.type || 'text'"
+        :class="thisField.visible ? '' : 'd-none'"
+        :label="thisField.label || property + ' label'"
+        :placeholder="thisField.placeholder || ''"
+        :hint="thisField.hint || ''"
+        :type="thisField.type || 'text'"
         :disabled="disabled || false"
         v-bind:value="value"
         :rules="validation"
@@ -37,8 +37,9 @@
 import { EventBus } from '../plugins/event-bus.js'
 import mixinConfig from '../mixins/mixinConfig'
 import moment from 'moment'
+import mixinField from '../mixins/mixinField.js'
 export default {
-  mixins: [mixinConfig],
+  mixins: [mixinConfig, mixinField],
   props: {
     property: String,
     disabled: Boolean,
@@ -52,9 +53,12 @@ export default {
     menu: false,
   }),
   created() {
-    var defaultValue = moment()
-      .add(this.field.default, 'days')
-      .format('YYYY-MM-DD')
+    var defaultValue = null
+    if (this.thisField.default !== null) {
+      defaultValue = moment()
+        .add(this.thisField.default, 'days')
+        .format('YYYY-MM-DD')
+    }
     EventBus.$on('reset-form', () => {
       this.$emit('input', defaultValue)
     })
@@ -64,7 +68,7 @@ export default {
 
   computed: {
     validation() {
-      if (this.field.required) {
+      if (this.thisField.required) {
         var requiredRule = (value) =>
           !!value || this.$config.translation.message.requiredField
         return [requiredRule]

@@ -8,6 +8,9 @@
   "disableUniqueIdentifierIfValid": true,
   "uniqueIdentifierLength": 6,
   "cardExpirationInDays": 365,
+  "convertDez10toDez35CUniqueID": true,
+  "UniqueIDPrefix" : "X",
+  "UniqueIDSuffix" : "X",
 
   "header": {
     "bgImage": "https://picsum.photos/id/1/1920/1080",
@@ -20,12 +23,26 @@
   "theme": {
     "primary": "#FF0000"
   },
+  "groups": [
+    {
+      "CardGroupId": 70499394,
+      "CardGroupEnabledBit": false,
+      "GroupDailyLimit": 500
+    },
+    {
+      "CardGroupId": 160239552,
+      "GroupDailyLimit": 150
+    }
+  ],
   "fields": {
     "use_wd_limit": {
       "label": "Modositott mezo cimke tavoli konfigbol"
     },
     "CardUniqueIdentifier": {
-      "default": "bedo2"
+      "default": "bedo5"
+    },
+    "CardDisplayNumber": {
+      "default": "bedo2sdas"
     }
   }
 }

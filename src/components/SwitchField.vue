@@ -1,9 +1,9 @@
 <template>
   <v-switch
-    :class="field.visible ? '' : 'd-none'"
-    :label="field.label || property + ' label'"
-    :placeholder="field.placeholder || property + ' placeholder'"
-    :hint="field.hint || ''"
+    :class="thisField.visible ? '' : 'd-none'"
+    :label="thisField.label || property + ' label'"
+    :placeholder="thisField.placeholder || property + ' placeholder'"
+    :hint="thisField.hint || ''"
     :disabled="disabled || false"
     v-bind:input-value="value"
     v-on:change="$emit('input', !!$event)"
@@ -15,8 +15,9 @@
 <script>
 import { EventBus } from '../plugins/event-bus.js'
 import mixinConfig from '../mixins/mixinConfig'
+import mixinField from '../mixins/mixinField.js'
 export default {
-  mixins: [mixinConfig],
+  mixins: [mixinConfig, mixinField],
   props: {
     property: String,
     disabled: Boolean,
@@ -30,10 +31,9 @@ export default {
 
   created() {
     EventBus.$on('reset-form', () => {
-      this.$emit('input', this.field.default)
+      this.$emit('input', this.thisField.default)
     })
-    if (this.field.default) console.log(this)
-    this.$emit('input', this.field.default)
+    this.$emit('input', this.thisField.default)
   },
 
 

@@ -8,6 +8,11 @@
   "disableUniqueIdentifierIfValid": false,
   "uniqueIdentifierLength": 6,
   "cardExpirationInDays": 365,
+  "convertDez10toDez35CUniqueID": false,
+  "UniqueIDPrefix" : "",
+  "UniqueIDSuffix" : "",
+  "fillUpSubmittedUniqueIDWithZeros": false,
+  "filledUpFixedLength": 10,
 
   "header": {
     "bgImage": "https://picsum.photos/1920/1080?random",
@@ -48,9 +53,11 @@
       "pleaseReadCard": "Kérem olvassa be a kártya azonosítóját a leolvasó berendezéssel a Kártyaszám mezőbe!",
       "cardCreationWasSuccessful": "A kártyaregisztrálás sikeres volt!",
       "cardUpdateWasSuccessful": "A kártya paraméterezése sikeres volt!",
+      "cardGroupAssignmentWasSuccessful": "A kártya csoportbesorolása sikeres volt!",
       "resetForm": "Űrlap újrakezdése"
     }
   },
+  "groups": [],
   "fields": {
     "CardUniqueIdentifier": {
       "label": "Kártyaszám",
@@ -60,7 +67,8 @@
       "default": "",
       "visible": true,
       "required": true,
-      "model": "create"
+      "model": "create",
+      "order": 0
     },
     "ActorID": {
       "label": "Operátor",
@@ -70,7 +78,8 @@
       "default": 2001087876,
       "visible": false,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 10
     },
     "CardDisplayNumber": {
       "label": "Kártyára írt sorozatszám",
@@ -80,7 +89,8 @@
       "default": "Kártyára írt sorozatszám",
       "visible": true,
       "required": true,
-      "model": "create"
+      "model": "create",
+      "order": 20
     },
     "CardType": {
       "label": "Kártya típusa",
@@ -96,9 +106,10 @@
       ],
       "visible": true,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 30
     },
-    "PhysicalType": {
+    "CardPhysicalType": {
       "label": "Kártya fizikai típusa",
       "palceholder": "",
       "hint": "",
@@ -118,7 +129,8 @@
       ],
       "visible": true,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 40
     },
     "CardNote": {
       "label": "Megjegyzés",
@@ -126,9 +138,10 @@
       "hint": "",
       "type": "text",
       "default": "",
-      "visible": false,
+      "visible": true,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 50
     },
     "CardStatus": {
       "label": "Állapot",
@@ -141,9 +154,10 @@
         { "label": "Lejárt", "value": 4 },
         { "label": "Nem aktív", "value": 2 }
       ],
-      "visible": false,
+      "visible": true,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 60
     },
     "CardHolderName": {
       "label": "Kártyatulajdonos neve",
@@ -153,7 +167,8 @@
       "default": "",
       "visible": true,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 70
     },
     "CardUserIdentity": {
       "label": "Felhasználó azonosító",
@@ -163,7 +178,8 @@
       "default": "",
       "visible": true,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 80
     },
     "CountryID": {
       "label": "Ország azonosító",
@@ -173,17 +189,19 @@
       "default": 98,
       "visible": false,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 90
     },
     "MobileNumber": {
       "label": "Mobiltelefonszám",
       "palceholder": "",
-      "hint": "",
+      "hint": "+36 nélkül",
       "type": "text",
       "default": "",
       "visible": true,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 100
     },
     "Email": {
       "label": "Email",
@@ -193,47 +211,52 @@
       "default": "",
       "visible": true,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 110
     },
     "CardActivationDate": {
       "label": "Aktiválási Dátum",
       "palceholder": "",
       "hint": "",
       "type": "date",
-      "default": "",
-      "visible": true,
+      "default": null,
+      "visible": false,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 120
     },
     "CardExpirationDate": {
       "label": "Lejárati dátum",
       "palceholder": "",
       "hint": "",
       "type": "date",
-      "default": "",
-      "visible": true,
+      "default": null,
+      "visible": false,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 130
     },
     "wd_limits_money": {
       "label": "Napi limit összeg",
       "palceholder": "",
       "hint": "",
       "type": "number",
-      "default": "",
-      "visible": true,
+      "default": null,
+      "visible": false,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 140
     },
     "wd_limits_trans": {
       "label": "Napi limit tranzakciók",
       "palceholder": "",
       "hint": "",
       "type": "number",
-      "default": "",
-      "visible": true,
+      "default": 0,
+      "visible": false,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 150
     },
     "use_wd_limit": {
       "label": "Napi limit használata",
@@ -241,9 +264,10 @@
       "hint": "",
       "type": "bool",
       "default": false,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "create"
+      "model": "create",
+      "order": 160
     },
     "CardDiscountTypeBit": {
       "label": "CardDiscountTypeBit",
@@ -251,9 +275,10 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 170
     },
     "CardDiscountAmount": {
       "label": "CardDiscountAmount",
@@ -261,79 +286,91 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 180
     },
     "CardCreditTypeMoneyBit": {
-      "label": "CardCreditTypeMoneyBit",
+      "label": "Kártya kredit típusa",
+      "palceholder": "",
+      "hint": "",
+      "type": "select",
+      "default": 1,
+      "visible": true,
+      "required": false,
+      "model": "update",
+      "items":[
+        { "label": "Összeg", "value": 1 },
+        { "label": "Tranzakció", "value": 0 }
+      ],
+      "order": 190
+    },
+    "CardCreditAccumulateBit": {
+      "label": "Felhalmozódó egyenleg",
       "palceholder": "",
       "hint": "",
       "type": "bool",
       "default": true,
       "visible": true,
-      "required": false,
-      "model": "update"
+      "required": true,
+      "model": "update",
+      "order": 200
     },
-    "CardCreditAccumulateBit": {
-      "label": "CardCreditAccumulateBit",
+    "CardCreditSingleUseBit": {
+      "label": "Ügyfélkártya",
       "palceholder": "",
       "hint": "",
       "type": "bool",
       "default": false,
       "visible": true,
       "required": false,
-      "model": "update"
-    },
-    "CardCreditSingleUseBit": {
-      "label": "CardCreditSingleUseBit",
-      "palceholder": "",
-      "hint": "",
-      "type": "bool",
-      "default": true,
-      "visible": true,
-      "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 210
     },
     "CardRevalueCashBit": {
-      "label": "CardRevalueCashBit",
+      "label": "Feltöltés engedélyezése",
       "palceholder": "",
       "hint": "",
       "type": "bool",
       "default": true,
       "visible": true,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 220
     },
     "CardRevalueCreditCardBit": {
-      "label": "CardRevalueCreditCardBit",
+      "label": "Bankkártyás feltöltés engedélyezése",
       "palceholder": "",
       "hint": "",
       "type": "bool",
       "default": true,
       "visible": true,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 230
     },
     "CardCredit": {
-      "label": "CardCredit",
+      "label": "Kártya egyenlege",
       "palceholder": "",
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 240
     },
     "CardRevalueCredit": {
-      "label": "CardRevalueCredit",
+      "label": "Feltöltős zseb egyenlege",
       "palceholder": "",
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 250
     },
     "CardMaxRevalueAmountLimit": {
       "label": "CardMaxRevalueAmountLimit",
@@ -341,59 +378,65 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 260
     },
     "CreditAmountDailyLimit": {
-      "label": "CreditAmountDailyLimit",
+      "label": "Napi limit",
       "palceholder": "",
       "hint": "",
       "type": "number",
       "default": 0,
       "visible": true,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 270
     },
     "CreditAmountMonthlyLimit": {
-      "label": "CreditAmountMonthlyLimit",
+      "label": "Havi limit",
       "palceholder": "",
       "hint": "",
       "type": "number",
       "default": 0,
       "visible": true,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 280
     },
     "CreditTransactionsDailyLimit": {
-      "label": "CreditTransactionsDailyLimit",
+      "label": "Tranzakció napi limit",
       "palceholder": "",
       "hint": "",
       "type": "number",
       "default": 0,
       "visible": true,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 290
     },
     "CreditTransactionsMonthlyLimit": {
-      "label": "CreditTransactionsMonthlyLimit",
+      "label": "Tranzakció havi limit",
       "palceholder": "",
       "hint": "",
       "type": "number",
       "default": 0,
       "visible": true,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 300
     },
     "CreditTransactionsMonthlyReload": {
-      "label": "CreditTransactionsMonthlyReload",
+      "label": "Havi tranzakció feltöltése",
       "palceholder": "",
       "hint": "",
       "type": "number",
       "default": 0,
       "visible": true,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 310
     },
     "CreditAmountCapture": {
       "label": "CreditAmountCapture",
@@ -401,9 +444,10 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 320
     },
     "CreditTransactionsCapture": {
       "label": "CreditTransactionsCapture",
@@ -411,19 +455,21 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 330
     },
     "CreditCaptureDate": {
       "label": "CreditCaptureDate",
       "palceholder": "",
       "hint": "",
       "type": "date",
-      "default": "",
-      "visible": true,
+      "default": 0,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 340
     },
     "CreditAmountDailyUsage": {
       "label": "CreditAmountDailyUsage",
@@ -431,9 +477,10 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 350
     },
     "CreditAmountMonthlyUsage": {
       "label": "CreditAmountMonthlyUsage",
@@ -441,9 +488,10 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 360
     },
     "CreditAmountTotalUsage": {
       "label": "CreditAmountTotalUsage",
@@ -451,9 +499,10 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 370
     },
     "CreditTransactionsDailyUsage": {
       "label": "CreditTransactionsDailyUsage",
@@ -461,9 +510,10 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 380
     },
     "CreditTransactionsMonthlyUsage": {
       "label": "CreditTransactionsMonthlyUsage",
@@ -471,9 +521,10 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 390
     },
     "TransactionsTotalUsage": {
       "label": "TransactionsTotalUsage",
@@ -481,49 +532,54 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 400
     },
     "CardRevalueExpirationDate": {
       "label": "CardRevalueExpirationDate",
       "palceholder": "",
       "hint": "",
       "type": "date",
-      "default": "",
-      "visible": true,
+      "default": null,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 410
     },
     "CardSetSingleUseDate": {
       "label": "CardSetSingleUseDate",
       "palceholder": "",
       "hint": "",
       "type": "date",
-      "default": 1,
-      "visible": true,
+      "default": null,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 420
     },
     "RemoveSingleUseDate": {
       "label": "RemoveSingleUseDate",
       "palceholder": "",
       "hint": "",
       "type": "date",
-      "default": 365,
-      "visible": true,
+      "default": null,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 430
     },
     "CreditAmountMonthlyReload": {
-      "label": "CreditAmountMonthlyReload",
+      "label": "Havi feltöltés összege",
       "palceholder": "",
       "hint": "",
       "type": "number",
       "default": 0,
       "visible": true,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 440
     },
     "CreditTransactionsTotalUsage": {
       "label": "CreditTransactionsTotalUsage",
@@ -531,9 +587,10 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 450
     },
     "CardCustomerTypeID": {
       "label": "CardCustomerTypeID",
@@ -541,29 +598,32 @@
       "hint": "",
       "type": "number",
       "default": 0,
-      "visible": true,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 460
     },
     "CardLastUpdatedBy": {
       "label": "CardLastUpdatedBy",
       "palceholder": "",
       "hint": "",
       "type": "number",
-      "default": 0,
-      "visible": true,
+      "default":"Kártya terminál",
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 470
     },
     "CardLastUpdatedDate": {
       "label": "CardLastUpdatedDate",
       "palceholder": "",
       "hint": "",
       "type": "date",
-      "default": "",
-      "visible": true,
+      "default": 0,
+      "visible": false,
       "required": false,
-      "model": "update"
+      "model": "update",
+      "order": 480
     },
     "final_wd_limit_money": {
       "label": "final_wd_limit_money",
@@ -571,9 +631,32 @@
       "hint": "",
       "type": "number",
       "default": 0,
+      "visible": false,
+      "required": false,
+      "model": "update",
+      "order": 490
+    },
+    "credit": {
+      "label": "Kártya induló egyenlege",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
       "visible": true,
       "required": false,
-      "model": "update"
+      "model": "misc",
+      "order": 500
+    },
+    "revalue": {
+      "label": "Feltöltő zseb induló egyenlege",
+      "palceholder": "",
+      "hint": "",
+      "type": "number",
+      "default": 0,
+      "visible": true,
+      "required": false,
+      "model": "misc",
+      "order": 510
     }
   }
 }

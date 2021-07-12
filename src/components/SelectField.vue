@@ -1,9 +1,9 @@
 <template>
   <v-select
-    :class="field.visible ? '' : 'd-none'"
-    :label="field.label || property + ' label'"
-    :placeholder="field.placeholder || property + ' placeholder'"
-    :hint="field.hint || ''"
+    :class="thisField.visible ? '' : 'd-none'"
+    :label="thisField.label || property + ' label'"
+    :placeholder="thisField.placeholder || property + ' placeholder'"
+    :hint="thisField.hint || ''"
     :items="anyItems"
     :disabled="disabled || false"
     item-text="label"
@@ -17,8 +17,9 @@
 <script>
 import { EventBus } from '../plugins/event-bus.js'
 import mixinConfig from '../mixins/mixinConfig'
+import mixinField from '../mixins/mixinField.js'
 export default {
-  mixins: [mixinConfig],
+  mixins: [mixinConfig, mixinField],
   props: {
     property: String,
     disabled: Boolean,
@@ -33,23 +34,18 @@ export default {
 
   created() {
     EventBus.$on('reset-form', () => {
-      this.$emit('input', this.field.default)
+      this.$emit('input', this.thisField.default)
     })
-    this.$emit('input', this.field.default)
+    this.$emit('input', this.thisField.default)
   },
 
   methods: {
-    updateModel(value) {
-      if (this.field.type == 'number') value = parseInt(value)
-
-      this.$emit('input', value)
-    },
   },
 
   computed: {
     anyItems() {
       if (this.items) return this.items
-      if (this.field.items) return this.field.items
+      if (this.thisField.items) return this.thisField.items
       return []
     },
     rules() {

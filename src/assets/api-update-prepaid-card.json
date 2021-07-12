@@ -2,7 +2,7 @@
     "CardID": 0,
     "CardDiscountTypeBit": 0,
     "CardDiscountAmount": 0,
-    "CardCreditTypeMoneyBit": true,
+    "CardCreditTypeMoneyBit": 0,
     "CardCreditAccumulateBit": true,
     "CardCreditSingleUseBit": true,
     "CardRevalueCashBit": true,

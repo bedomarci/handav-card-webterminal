@@ -1,6 +1,7 @@
 import axios from 'axios'
 import c from '../app-constants'
 import { EventBus } from '../plugins/event-bus.js'
+import _ from 'lodash'
 
 export default {
   computed: {
@@ -23,59 +24,73 @@ export default {
   },
 
   methods: {
-    postCard(model) {
+    registerVirtualCard(model, groups) {
       var cardCreateResponse = null
-      // var cardUpdateResponse
       return this.fetchToken()
-        .then(() => {
-          return axios.post(
-            c.API_CARD_CREATE_URL,
-            { ...model.create },
-            this.postHeader
-          )
-        })
+        .then(() => this.createCard(model))
         .then(response => {
           cardCreateResponse = response
           EventBus.$emit('api-create-success', response)
-          return this.fetchToken()
-        }, this.apiError)
-        // .then(() => {
-        //   return this.fetchToken()
-        // }, this.apiError)
-        .then(() => {
-          return this.updateCard(cardCreateResponse.data.CardID, model.update)
-        }, this.apiError)
+        })
+        .then(() =>
+          this.updateCard(cardCreateResponse.data.CardID, model.update)
+        )
         .then(response => {
-          // cardUpdateResponse = response
-          console.log(response)
           EventBus.$emit('api-update-success', response)
-          return this.fetchToken()
-        }, this.apiError)
-        // .then(() => {
-        //   return this.fetchToken()
-        // }, this.apiError)
-        // .then(() => {
-        //   if (model.misc.Credit && cardCreateResponse)
-        //     return this.postCredit(
-        //       cardCreateResponse.data.CardUniqueIdentifier,
-        //       model.misc.Credit
-        //     )
-        // }, this.apiError)
-        // .then(() => {
-        //   return this.fetchToken()
-        // }, this.apiError)
-        // .then(() => {
-        //   if (model.misc.Revalue && cardCreateResponse)
-        //     this.postRevalue(
-        //       cardCreateResponse.data.CardUniqueIdentifier,
-        //       model.misc.Revalue
-        //     )
-        // }, this.apiError)
+        })
+        .then(() => this.getGroups(cardCreateResponse.data.CardID))
+        .then(async response => {
+          var mergedGroups = await this.mergeGroupConfiguration(
+            JSON.parse(JSON.stringify(groups)),
+            response.data
+          )
+          return this.updateGroups(cardCreateResponse.data.CardID, mergedGroups)
+        })
+        .then(response => {
+          if (response) EventBus.$emit('api-group-success', response)
+        })
+        .then(() => {
+          if (model.misc.credit) {
+            this.postCredit(
+              cardCreateResponse.data.CardUniqueIdentifier,
+              model.misc.credit
+            )
+          }
+        })
+        .then(() => {
+          if (model.misc.revalue) {
+            this.postRevalue(
+              cardCreateResponse.data.CardUniqueIdentifier,
+              model.misc.revalue
+            )
+          }
+        })
+        .catch(this.apiError)
+    },
+    createCard(model) {
+      return axios.post(
+        c.API_CARD_CREATE_URL,
+        { ...model.create },
+        this.postHeader
+      )
     },
     updateCard(cardID, updateModel) {
       return axios.put(
         c.API_CARD_UPDATE_URL.replace('{CardId}', cardID),
         { ...updateModel },
+        this.postHeader
+      )
+    },
+    getGroups(cardID) {
+      return axios.get(
+        c.API_CARD_GROUPS_URL.replace('{CardId}', cardID),
+        this.postHeader
+      )
+    },
+    updateGroups(cardID, updateGroups) {
+      return axios.put(
+        c.API_CARD_GROUPS_URL.replace('{CardId}', cardID),
+        updateGroups,
         this.postHeader
       )
     },
@@ -118,7 +133,12 @@ export default {
         }, this.apiError)
     },
     apiError(error) {
-      EventBus.$emit('api-error', 'API: ' + error.response.data.message)
+      var msg = error
+      console.log(error.response)
+      if (error.response) msg = 'API: ' + error.response.data.message
+      else if (error.message) msg = error.message
+      EventBus.$emit('api-error', msg)
+      return error
     },
     forgetToken() {
       this.$store.commit('setToken', null)
@@ -158,6 +178,13 @@ export default {
       var expirationDate = Date.parse(localStorage.expiration)
       var currentDate = Date.now()
       return expirationDate > currentDate
+    },
+    async mergeGroupConfiguration(newValue, originalValue) {
+      newValue = _.chain(newValue).keyBy('CardGroupId')
+      originalValue = _.chain(originalValue).keyBy('CardGroupId')
+      var merged = await _.defaultsDeep(newValue.value(), originalValue.value())
+      console.log(merged)
+      return await _.values(merged)
     }
   }
 }

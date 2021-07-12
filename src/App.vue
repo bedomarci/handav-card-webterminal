@@ -4,6 +4,9 @@
     <v-main>
       <v-container>
         <settings-modal v-model="dialog"></settings-modal>
+        <v-overlay :value="formDisabled">
+          <v-progress-circular indeterminate size="64"></v-progress-circular>
+        </v-overlay>
         <v-form
           ref="form"
           v-model="valid"
@@ -27,9 +30,7 @@
               <text-field
                 v-model="createModel.CardUniqueIdentifier"
                 property="CardUniqueIdentifier"
-                :disabled="
-                  isCardUniqueIdentifierValid && isCardUniqueIdentifierValid
-                "
+                :disabled="isCardUniqueIdentifierValid"
               ></text-field>
             </v-col>
 
@@ -48,30 +49,13 @@
 
             <v-expand-transition>
               <v-col cols="12" v-show="isCardUniqueIdentifierValid">
-                <div v-for="(field, name) in this.config.fields" :key="name">
-                  <div v-if="name != 'CardUniqueIdentifier'">
-                    <text-field
-                      v-if="field.type == 'text' || field.type == 'number'"
-                      v-model="model[field.model][name]"
-                      :property="name"
-                    ></text-field>
-                    <select-field
-                      v-if="field.type == 'select'"
-                      v-model="model[field.model][name]"
-                      :property="name"
-                    ></select-field>
-                    <date-field
-                      v-if="field.type == 'date'"
-                      v-model="model[field.model][name]"
-                      :property="name"
-                    ></date-field>
-                    <switch-field
-                      v-if="field.type == 'bool'"
-                      v-model="model[field.model][name]"
-                      :property="name"
-                    ></switch-field>
-                  </div>
-                </div>
+                <dynamic-field
+                  v-for="name in this.orderedFieldNamesWithoutUniqueId"
+                  :key="name"
+                  v-bind:value="getValueByName(name)"
+                  v-on:input="setValueByName(name, $event)"
+                  :property="name"
+                ></dynamic-field>
               </v-col>
             </v-expand-transition>
           </v-row>
@@ -96,11 +80,12 @@
           </v-row>
         </v-form>
         <v-snackbar
+          centered
           v-model="snackbar"
           :color="snackbarColor"
           :timeout="this.config.errorMessageTimeout"
         >
-          {{ snackbarMessage }}
+          <h3>{{ snackbarMessage }}</h3>
           <template v-slot:action="{ attrs }">
             <v-btn text v-bind="attrs" @click="snackbar = false">
               {{ __.common.close }}
@@ -115,12 +100,11 @@
 <script>
 // import Vue from 'vue'
 import SettingsModal from './components/SettingsModal'
-import TextField from './components/TextField'
-import SelectField from './components/SelectField'
-import SwitchField from './components/SwitchField'
-import DateField from './components/DateField'
+
+import DynamicField from './components/DynamicField'
 import AppBar from './components/AppBar'
 import mixinAPIMethods from './mixins/mixinAPIMethods'
+import TextField from './components/TextField'
 import mixinConfig from './mixins/mixinConfig'
 import { EventBus } from './plugins/event-bus.js'
 // import c from './app-constants'
@@ -132,9 +116,7 @@ export default {
   components: {
     SettingsModal,
     TextField,
-    SwitchField,
-    SelectField,
-    DateField,
+    DynamicField,
     AppBar,
   },
 
@@ -150,6 +132,11 @@ export default {
     EventBus.$on('api-update-success', () => {
       this.snack(this.__.message.cardUpdateWasSuccessful)
     })
+    EventBus.$on('api-group-success', (response) => {
+      console.log(response)
+      this.snack(this.__.message.cardGroupAssignmentWasSuccessful)
+    })
+
     this.loadDefaultConfig()
 
     if (this.hasAPICredentials) {
@@ -159,6 +146,15 @@ export default {
       this.dialog = true
     } else {
       this.fetchRemoteConfig().then(this.resetForm)
+      // .then(this.fetchToken)
+      // .then(() => this.getGroups(133594416625080))
+      // .then(async (response) => {
+      //   var merged = await this.mergeGroupConfiguration(
+      //     JSON.parse(JSON.stringify(this.config.groups)),
+      //     response.data
+      //   )
+      //   console.log(merged)
+      // })
     }
   },
   methods: {
@@ -171,10 +167,13 @@ export default {
       if (this.valid) {
         this.formDisabled = true
         this.transformUniqueId()
-        this.postCard(this.model).then((response) => {
-          this.resetForm()
-          return response
-        })
+
+        this.registerVirtualCard(this.model, this.config.groups).then(
+          (response) => {
+            this.resetForm()
+            return response
+          }
+        )
       } else {
         this.$vuetify.goTo('#the-form')
       }
@@ -189,16 +188,80 @@ export default {
     transformUniqueId() {
       if (this.config.convertHextoDecUniqueID) {
         var uniqueIdHex = parseInt(this.createModel.CardUniqueIdentifier, 16)
+        if (this.config.filledUpFixedLength > uniqueIdHex.length) {
+          var zeros = '0'.repeat(this.config.filledUpFixedLength)
+          uniqueIdHex = (zeros + uniqueIdHex).slice(this.config.filledUpFixedLength * -1)
+        }
         this.createModel.CardUniqueIdentifier = uniqueIdHex
+      } else if (this.config.convertDez10toDez35CUniqueID) {
+        var uniqueIdDez10 = Number(
+          this.createModel.CardUniqueIdentifier
+        ).toString(16)
+        uniqueIdDez10 = ('0000000' + uniqueIdDez10).slice(-6)
+        var lowSide = uniqueIdDez10.substring(2)
+        lowSide = ('00000' + parseInt(lowSide, 16)).slice(-5)
+        var highSide = uniqueIdDez10.substring(0, 2)
+        highSide = ('000' + parseInt(highSide, 16)).slice(-3)
+        this.createModel.CardUniqueIdentifier = highSide + lowSide
       }
+
+      this.createModel.CardUniqueIdentifier =
+        this.config.UniqueIDPrefix +
+        this.createModel.CardUniqueIdentifier +
+        this.config.UniqueIDSuffix
     },
     snack(message, color = 'info') {
       this.snackbarMessage = message
       this.snackbarColor = color
       this.snackbar = true
     },
+    getValueByName(name) {
+      return this.model[this.config.fields[name].model][name]
+    },
+    setValueByName(name, val) {
+      this.model[this.config.fields[name].model][name] = val
+    },
   },
-
+  watch: {
+    isCardUniqueIdentifierValid(newVal, oldVal) {
+      if (newVal && !oldVal) {
+        this.createModel.CardUniqueIdentifier =
+          this.createModel.CardUniqueIdentifier.replaceAll('ö', '0')
+      }
+    },
+    'model.update.CardCreditAccumulateBit'(newVal) {
+      if (newVal) this.updateModel.CardCreditSingleUseBit = false
+    },
+    'model.update.CardCreditSingleUseBit'(newVal) {
+      if (newVal) this.updateModel.CardCreditAccumulateBit = false
+    },
+    'model.update.CardCreditTypeMoneyBit'(newVal) {
+      this.$store.commit('hideField', {
+        name: 'CreditAmountDailyLimit',
+        hidden: newVal == 0,
+      })
+      this.$store.commit('hideField', {
+        name: 'CreditAmountMonthlyLimit',
+        hidden: newVal == 0,
+      })
+      this.$store.commit('hideField', {
+        name: 'CreditAmountMonthlyReload',
+        hidden: newVal == 0,
+      })
+      this.$store.commit('hideField', {
+        name: 'CreditTransactionsDailyLimit',
+        hidden: newVal == 1,
+      })
+      this.$store.commit('hideField', {
+        name: 'CreditTransactionsMonthlyLimit',
+        hidden: newVal == 1,
+      })
+      this.$store.commit('hideField', {
+        name: 'CreditTransactionsMonthlyReload',
+        hidden: newVal == 1,
+      })
+    },
+  },
   computed: {
     hasAllProperties() {
       return (
@@ -229,10 +292,16 @@ export default {
     updateModel() {
       return this.model.update
     },
+    orderedFieldNamesWithoutUniqueId() {
+      return this.orderedFieldNames.filter(
+        (item) => item !== 'CardUniqueIdentifier'
+      )
+    },
   },
 
   data: () => ({
     formDisabled: false,
+    loader: false,
     dialog: false,
     snackbarMessage: '',
     snackbarColor: 'info',
