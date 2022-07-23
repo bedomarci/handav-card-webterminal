@@ -68,7 +68,7 @@ export default {
         .catch(this.apiError)
     },
     createCard(model) {
-      delay(1000);
+      //delay(1000);
       return axios.post(
         c.API_CARD_CREATE_URL,
         { ...model.create },
@@ -76,7 +76,7 @@ export default {
       )
     },
     updateCard(cardID, updateModel) {
-      delay(1000);
+      //delay(1000);
       return axios.put(
         c.API_CARD_UPDATE_URL.replace('{CardId}', cardID),
         { ...updateModel },
@@ -90,7 +90,7 @@ export default {
       )
     },
     updateGroups(cardID, updateGroups) {
-      delay(1000);
+      //delay(1000);
       return axios.put(
         c.API_CARD_GROUPS_URL.replace('{CardId}', cardID),
         updateGroups,
