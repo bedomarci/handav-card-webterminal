@@ -10,7 +10,7 @@ const API_CARD_STATUS_URL = API_URL + 'Operational/v1/cards/{CardUniqueIdentifie
 const API_CARD_UPDATE_URL = API_URL + 'Operational/v1/cards/{CardId}/prepaid'
 const API_CARD_GROUPS_URL = API_URL + 'Operational/v1/cards/{CardId}/cardGroups'
 const API_FETCH_CONFIG_URL = './config/'
-const DELAY_BETWEEN_REQUESTS = 5000
+const DELAY_BETWEEN_REQUESTS = 2000
 
 // const API_CARD_CREATE_URL = API_URL + '/Operational/v2/cards/' 
 

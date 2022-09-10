@@ -68,8 +68,8 @@ export default {
         .catch(this.apiError)
     },
     async createCard(model) {
-      //await this.sleep(c.DELAY_BETWEEN_REQUESTS);
-      //console.log("sleep ends at " + new Date().getTime());
+      await this.sleep(c.DELAY_BETWEEN_REQUESTS);
+      console.log("sleep ends at " + new Date().getTime());
       return axios.post(
         c.API_CARD_CREATE_URL,
         { ...model.create },
@@ -191,7 +191,7 @@ export default {
       return await _.values(merged)
     },
     sleep(ms) {
-      //console.log("delay starts at " + new Date().getTime());
+      console.log("delay starts at " + new Date().getTime());
       return new Promise(resolve => setTimeout(resolve, ms));
     }
   }
