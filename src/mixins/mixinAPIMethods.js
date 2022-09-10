@@ -67,16 +67,17 @@ export default {
         })
         .catch(this.apiError)
     },
-    createCard(model) {
-      //delay(1000);
+    async createCard(model) {
+      //await this.sleep(c.DELAY_BETWEEN_REQUESTS);
+      //console.log("sleep ends at " + new Date().getTime());
       return axios.post(
         c.API_CARD_CREATE_URL,
         { ...model.create },
         this.postHeader
       )
     },
-    updateCard(cardID, updateModel) {
-      //delay(1000);
+    async updateCard(cardID, updateModel) {
+      await this.sleep(c.DELAY_BETWEEN_REQUESTS);
       return axios.put(
         c.API_CARD_UPDATE_URL.replace('{CardId}', cardID),
         { ...updateModel },
@@ -89,8 +90,8 @@ export default {
         this.postHeader
       )
     },
-    updateGroups(cardID, updateGroups) {
-      //delay(1000);
+    async updateGroups(cardID, updateGroups) {
+      await this.sleep(c.DELAY_BETWEEN_REQUESTS);
       return axios.put(
         c.API_CARD_GROUPS_URL.replace('{CardId}', cardID),
         updateGroups,
@@ -188,6 +189,10 @@ export default {
       var merged = await _.defaultsDeep(newValue.value(), originalValue.value())
       console.log(merged)
       return await _.values(merged)
+    },
+    sleep(ms) {
+      //console.log("delay starts at " + new Date().getTime());
+      return new Promise(resolve => setTimeout(resolve, ms));
     }
   }
 }

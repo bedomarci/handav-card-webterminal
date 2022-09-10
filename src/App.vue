@@ -30,7 +30,8 @@
               <text-field
                 v-model="createModel.CardUniqueIdentifier"
                 property="CardUniqueIdentifier"
-                :disabled="isCardUniqueIdentifierValid"
+                :disabled="isCardUniqueIdentifierValid && config.disableUniqueIdentifierIfValid"
+                v-on:blur="transformUniqueId"
               ></text-field>
             </v-col>
 
@@ -166,7 +167,7 @@ export default {
       this.validateForm()
       if (this.valid) {
         this.formDisabled = true
-        this.transformUniqueId()
+        //this.transformUniqueId()
 
         this.registerVirtualCard(this.model, this.config.groups).then(
           (response) => {
@@ -181,14 +182,21 @@ export default {
     resetFormValidation() {
       this.$refs.form.resetValidation()
       this.formDisabled = false
+      this.uniqueIDisTransformed = false
     },
     validateForm() {
       this.$refs.form.validate()
     },
     transformUniqueId() {
+      //RUN ONLY ONCE
+
+      if (this.uniqueIDisTransformed) return
+      this.uniqueIDisTransformed = true
+
+
       if (this.config.convertHextoDecUniqueID) {
         var uniqueIdHex = parseInt(this.createModel.CardUniqueIdentifier, 16)
-        if (this.config.filledUpFixedLength > uniqueIdHex.length) {
+        if (this.config.filledUpFixedLength > uniqueIdHex.toString().length) {
           var zeros = '0'.repeat(this.config.filledUpFixedLength)
           uniqueIdHex = (zeros + uniqueIdHex).slice(this.config.filledUpFixedLength * -1)
         }
@@ -312,6 +320,7 @@ export default {
       misc: {},
     },
     valid: false,
+    uniqueIDisTransformed: false,
   }),
 }
 </script>

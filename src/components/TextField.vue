@@ -8,6 +8,7 @@
     :disabled="disabled || false"
     v-bind:value="value"
     v-on:input="updateModel($event)"
+    v-on:blur="$emit('blur')"
     :rules="validation"
     clearable
     filled

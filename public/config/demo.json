@@ -2,15 +2,17 @@
   "errorMessageTimeout": 5000,
   "enableTokenControl": true,
   "replaceHungarianAccentToZeroInUniqueID": true,
-  "convertHextoDecUniqueID": false,
+  "convertHextoDecUniqueID": true,
   "hideSettingsIcon": false,
   "hideDetailFieldsBeforeUniqueIdentifierIsValid": true,
-  "disableUniqueIdentifierIfValid": true,
+  "disableUniqueIdentifierIfValid": false,
   "uniqueIdentifierLength": 6,
+
+  "filledUpFixedLength": 10,
   "cardExpirationInDays": 365,
   "convertDez10toDez35CUniqueID": true,
-  "UniqueIDPrefix" : "X",
-  "UniqueIDSuffix" : "X",
+  "UniqueIDPrefix" : "",
+  "UniqueIDSuffix" : "",
 
   "header": {
     "bgImage": "https://picsum.photos/id/1/1920/1080",
